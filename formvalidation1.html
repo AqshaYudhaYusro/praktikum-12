@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        .container{
+            margin-left: 34.1rem;
+        }
+        table {
+            display: flex;
+            margin-top: 6rem;
+        }
+
+        td {
+            padding-top: 1rem;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .submit {
+            text-align: center;
+        }
+
+        input:invalid,
+        input:required:invalid {
+            outline: 1px solid red;
+            border: none;
+            border-radius: 2px;
+        }
+
+        input:valid,
+        input:required:valid {
+            border: 1px solid black;
+            border-radius: 2px;
+        }
+
+
+        #result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <table>
+                <form id="form" action="" method="post">
+                   <tr>
+                        <td class="right">
+                            <label for="nama">Nama Pelanggan :</label>
+                        </td>
+                        <td>
+                            <input class="input-control" type="text" name="nama" id="nama" required maxlength="30">
+                        </td>
+                        <td> <span id="namaerror" class="error-message"></span></td>
+                   </tr>
+                    <tr>
+                        <td class="right">
+                            <label for="email">Email :</label>
+                        </td>
+                        <td>
+                            <input class="input-control" type="email" name="email" id="email" required>
+                        </td>
+                        <td><span id="emailerror" class="error-message"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            <label for="jam">Jam Keberangkatan :</label>
+                        </td>
+                        <td>
+                            <input class="input-control" type="time" name="jam" id="jam" required>
+                        </td>
+                        <td><span id="jamerror" class="error-message"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            <label for="tujuan">Tujuan Keberangkatan :</label>
+                        </td>
+                        <td>
+                            <input class="input-control" type="text" name="tujuan" id="tujuan" required>
+                        </td>
+                        <td><span id="tujuanerror" class="error-message"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            <label for="jumlah"> Jumlah Tiket :</label>
+                        </td>
+                        <td>
+                            <input class="input-control" type="number" name="jumlah" id="jumlah" required>
+                        </td>
+                        <td><span id="jumlaherror" class="error-message"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="submit" colspan="2">
+                            <input type="submit" value="Submit">
+                        </td>
+                    </tr>
+                </form>
+            </table>
+            <div id="result">
+                <h2>Data Form:</h2>
+                <p id="resultnama"></p>
+                <p id="resultemail"></p>
+                <p id="resultjam"></p>
+                <p id="resulttujuan"></p>
+                <p id="resultjumlah"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("form").addEventListener("submit", function(event) {
+          event.preventDefault();
+      
+          var nama = document.getElementById("nama").value;
+          var email = document.getElementById('email').value;
+          var jam = document.getElementById("jam").value;
+          var tujuan = document.getElementById("tujuan").value;
+          var jumlah = document.getElementById("jumlah").value;
+      
+          var valid = true;
+      
+          // Validasi Nama Pelanggan
+          if (nama === "") {
+            document.getElementById("namaerror").innerText = 'Nama User dibutuhkan';
+            valid = false;
+          } else {
+            document.getElementById("namaerror").innerText = '';
+          }
+      
+          // Validasi Email
+          if (!email.match(/^\S+@\S+\.\S+$/)) {
+            document.getElementById('emailerror').innerText = 'Format email tidak valid';
+            valid = false;
+          } else {
+            document.getElementById('emailerror').innerText = '';
+          }
+      
+          // Validasi Jam Keberangkatan
+          if (!jam.match(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/)) {
+            document.getElementById("jamerror").innerText = 'Format jam tidak valid';
+            valid = false;
+          } else {
+            document.getElementById("jamerror").innerText = '';
+          }
+      
+          // Validasi Tujuan Keberangkatan
+          if (tujuan === "") {
+            document.getElementById("tujuanerror").innerText = 'Tujuan Keberangkatan dibutuhkan';
+            valid = false;
+          } else {
+            document.getElementById("tujuanerror").innerText = '';
+          }
+      
+          // Validasi Jumlah Tiket
+          if (jumlah === "" || isNaN(jumlah) || parseInt(jumlah) < 1 || parseInt(jumlah) > 10) {
+            document.getElementById("jumlaherror").innerText = 'Jumlah Tiket tidak valid';
+            valid = false;
+          } else {
+            document.getElementById("jumlaherror").innerText = '';
+          }
+      
+          // Jika semua data valid, tampilkan hasil di bawah form
+          if (valid) {
+            var hasilDiv = document.getElementById('result');
+            hasilDiv.style.display = 'flex'; // Show the result div
+            document.getElementById("resultnama").innerText = 'Nama: ' + nama;
+            document.getElementById("resultemail").innerText = 'Email: ' + email;
+            document.getElementById("resultjam").innerText = 'Jam Keberangkatan: ' + jam;
+            document.getElementById("resulttujuan").innerText = 'Tujuan Keberangkatan: ' + tujuan;
+            document.getElementById("resultjumlah").innerText = 'Jumlah Tiket: ' + jumlah;
+          }
+        });
+    </script>
+</body>
+</html>
